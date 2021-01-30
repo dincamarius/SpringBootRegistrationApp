@@ -1,9 +1,9 @@
 package com.example.register.appuser;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.register.registration.token.ConfirmationToken;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,12 +11,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Getter
 @Setter
 @Data
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 public class AppUser implements UserDetails {
 
     @Id
@@ -31,6 +33,10 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
+
+    @OneToMany(mappedBy = "appUser", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<ConfirmationToken> confirmationTokens;
 
     public AppUser(String firstName, String lastName, String email, String password, AppUserRole appUserRole) {
         this.firstName = firstName;

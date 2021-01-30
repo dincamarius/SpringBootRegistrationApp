@@ -1,15 +1,12 @@
 package com.example.register.registration.token;
 
 import com.example.register.appuser.AppUser;
-import com.sun.istack.Nullable;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -33,7 +30,7 @@ public class ConfirmationToken {
 
     private LocalDateTime confirmedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             nullable = false,
             name = "app_user_id"
